@@ -83,3 +83,46 @@ class Fp4e2m1Mixin(ExtendedInjector):
     exponent_bit_width = 2
     mantissa_bit_width = 1
     saturating = True
+
+# ---------------------------------------------------------------------
+#  FP-format wrappers not shipped by default
+# ---------------------------------------------------------------------
+#
+# The mix-ins above encode the numerical format (bit-width, exponent,
+# mantissa) while the *Base* classes implement scale learning, STE, etc.
+# Combining the two yields ready-to-use quantisers that can be passed to
+# QuantConv2d / QuantIdentity.
+#
+# FP4  (e2m1)  – 4-bit float
+# FP6a (e3m2)  – 6-bit float
+# FP6b (e2m3)  – 6-bit float
+# ---------------------------------------------------------------------
+
+class Fp4WeightPerTensorFloat(Fp4e2m1Mixin, ScaledFloatWeightBase):
+    """Per-tensor 4-bit (e2m1) floating-point **weight** quantiser."""
+    pass
+
+
+class Fp4ActPerTensorFloat(Fp4e2m1Mixin, ScaledFloatActBase):
+    """Per-tensor 4-bit (e2m1) floating-point **activation** quantiser."""
+    pass
+
+
+class Fp6e3m2WeightPerTensorFloat(Fp6e3m2Mixin, ScaledFloatWeightBase):
+    """Per-tensor 6-bit (e3m2) floating-point weight quantiser."""
+    pass
+
+
+class Fp6e3m2ActPerTensorFloat(Fp6e3m2Mixin, ScaledFloatActBase):
+    """Per-tensor 6-bit (e3m2) floating-point activation quantiser."""
+    pass
+
+
+class Fp6e2m3WeightPerTensorFloat(Fp6e2m3Mixin, ScaledFloatWeightBase):
+    """Per-tensor 6-bit (e2m3) floating-point weight quantiser."""
+    pass
+
+
+class Fp6e2m3ActPerTensorFloat(Fp6e2m3Mixin, ScaledFloatActBase):
+    """Per-tensor 6-bit (e2m3) floating-point activation quantiser."""
+    pass
